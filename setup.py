@@ -28,6 +28,7 @@ setup(
     include_package_data=True,
     description='Utils for using Zookeeper locks through kazoo in Django commands and views.',
     long_description=README,
+    long_description_content_type='text/markdown',
     author='IIIT',
     author_email='github@iiit.pl',
     install_requires=required,
