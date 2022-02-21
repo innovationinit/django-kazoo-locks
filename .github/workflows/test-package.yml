@@ -29,6 +29,8 @@ jobs:
     - name: Test using tox
       run: |
         tox
+      env:
+        GITHUB_TOKEN: ${{ secrets.github_token }}
     - name: Coveralls Parallel
       uses: coverallsapp/github-action@master
       with:
