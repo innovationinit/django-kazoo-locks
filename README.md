@@ -1,8 +1,8 @@
 Django Kazoo Locks
 ==================
 
-![example workflow](https://github.com/innovationinit/django-kazoo-locks/actions/workflows/test-package.yml/badge.svg)
-[![image](https://coveralls.io/repos/github/innovationinit/django-kazoo-locks/badge.svg?branch=master&foolcache=1)](https://coveralls.io/github/innovationinit/django-kazoo-locks?branch=main)
+![example workflow](https://github.com/innovationinit/django-kazoo-locks/actions/workflows/test-package.yml/badge.svg?branch=main)
+[![Coverage Status](https://coveralls.io/repos/github/innovationinit/django-kazoo-locks/badge.svg)](https://coveralls.io/github/innovationinit/django-kazoo-locks)
 
 About
 -----
