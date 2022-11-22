@@ -1,12 +1,19 @@
+image: registry.futuremind.dev:443/devops/docker-python-base/python/all-in-one:latest
+
 stages:
   - test
   - release
   - cleanup
 
+before_script:
+  - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
+
 variables:
   DOCKER_DRIVER: overlay2
   CONTAINER_IMAGE: registry.futuremind.dev:443/futuremind/django-kazoo-locks
   PYPI_PACKAGE_NAME: django-kazoo-locks
+  COMPOSE_IGNORE_ORPHANS: "True"
+  DOCKER_BUILDKIT: "1"
 
 test:
   stage: test
@@ -17,16 +24,16 @@ test:
   tags:
     - shell_shared_runner
 
-#release:
-#  stage: release
-#  script:
-#    - export GIT_HEAD=`git rev-parse --short HEAD`
-#    - docker build --pull -t $CONTAINER_IMAGE:$GIT_HEAD .
-#    - docker run -e CI_JOB_NAME -e TWINE_USERNAME -e TWINE_PASSWORD -e TWINE_REPOSITORY_URL -e PYPI_PACKAGE_NAME --rm $CONTAINER_IMAGE:$GIT_HEAD
-#  only:
-#    - master
-#  tags:
-#    - docker-shell
+release:
+  stage: release
+  script:
+    - export GIT_HEAD=`git rev-parse --short HEAD`
+    - docker build --pull -t $CONTAINER_IMAGE:$GIT_HEAD .
+    - docker run -e CI_JOB_NAME -e TWINE_USERNAME -e TWINE_PASSWORD -e TWINE_REPOSITORY_URL -e PYPI_PACKAGE_NAME --rm $CONTAINER_IMAGE:$GIT_HEAD
+  only:
+    - master
+  tags:
+    - shell_shared_runner
 
 cleanup pipeline:
   retry: 1
