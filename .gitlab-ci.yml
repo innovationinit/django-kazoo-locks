@@ -1,0 +1,41 @@
+stages:
+  - test
+  - release
+  - cleanup
+
+variables:
+  DOCKER_DRIVER: overlay2
+  CONTAINER_IMAGE: registry.futuremind.dev:443/futuremind/django-kazoo-locks
+  PYPI_PACKAGE_NAME: django-kazoo-locks
+
+test:
+  stage: test
+  script:
+    - export GIT_HEAD=`git rev-parse --short HEAD`
+    - docker build --pull -t $CONTAINER_IMAGE:$GIT_HEAD .
+    - docker run -e CI_JOB_NAME -e PIP_INDEX_URL --rm $CONTAINER_IMAGE:$GIT_HEAD
+  tags:
+    - shell_shared_runner
+
+#release:
+#  stage: release
+#  script:
+#    - export GIT_HEAD=`git rev-parse --short HEAD`
+#    - docker build --pull -t $CONTAINER_IMAGE:$GIT_HEAD .
+#    - docker run -e CI_JOB_NAME -e TWINE_USERNAME -e TWINE_PASSWORD -e TWINE_REPOSITORY_URL -e PYPI_PACKAGE_NAME --rm $CONTAINER_IMAGE:$GIT_HEAD
+#  only:
+#    - master
+#  tags:
+#    - docker-shell
+
+cleanup pipeline:
+  retry: 1
+  stage: cleanup
+  when: always
+  script:
+    - echo "Clean UP Docker"
+    - docker volume prune -f
+    - docker container prune --force --filter "until=120h"
+    - docker image prune -a --force --filter "until=120h"
+  tags:
+    - shell_shared_runner
