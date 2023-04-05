@@ -23,7 +23,7 @@ os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
 
 setup(
     name='django-kazoo-locks',
-    version='2.0.1',
+    version='2.0.2',
     packages=get_packages('kazoo_locks'),
     include_package_data=True,
     description='Utils for using Zookeeper locks through kazoo in Django commands and views.',
@@ -47,5 +47,6 @@ setup(
         'Programming Language :: Python :: 3.8',
         'Programming Language :: Python :: 3.9',
         'Programming Language :: Python :: 3.10',
+        'Programming Language :: Python :: 3.11',
     ],
 )
